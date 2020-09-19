@@ -32,8 +32,37 @@ function generatePassword() {
       alert("The password must include at least one of the following types: lowercase, uppercase, numbers, or special characters.");
     }
   }
-  console.log(`lowercase:${includeLowercase}, uppercase:${includeUppercase}, numbers:${includeNumbers}, special:${includeSpecial}`);
-  return "Password";
+  //console.log(`lowercase:${includeLowercase}, uppercase:${includeUppercase}, numbers:${includeNumbers}, special:${includeSpecial}`);
+
+  // generate password matching the criteria
+  var pswd = "";
+  var setIdx; // index into character set
+  var lowercaseSet = "abcdefghijklmnopqrstuvwxyz";
+  var uppercaseSet = lowercaseSet.toUpperCase();
+  var numberSet = "0123456789";
+  var specialSet = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+  while(pswd.length < pswdLen) {
+    if (includeLowercase) {
+      setIdx = Math.floor(Math.random() * lowercaseSet.length);
+      pswd += lowercaseSet[setIdx];
+    }
+    if (includeUppercase) {
+      setIdx = Math.floor(Math.random() * uppercaseSet.length);
+      pswd += uppercaseSet[setIdx];
+    }
+    if (includeNumbers) {
+      setIdx = Math.floor(Math.random() * numberSet.length);
+      pswd += numberSet[setIdx];
+    }
+    if (includeSpecial) {
+      setIdx = Math.floor(Math.random() * specialSet.length);
+      pswd += specialSet[setIdx];
+    }
+  }
+  // pswd may be longer than pswdLen; adjust
+  pswd = pswd.substring(0, pswdLen);
+     
+  return pswd;
 } 
 
 // Write password to the #password input
