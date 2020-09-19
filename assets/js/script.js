@@ -7,6 +7,10 @@ function generatePassword() {
   var pswdLen = 0;
   while(Number.isNaN(pswdLen) || pswdLen<8 || pswdLen>128) {
     pswdLenStr = prompt("Please enter password length [in the range 8-128]");
+    if (pswdLenStr == null) {
+      // abort password generation; user pressed cancel
+      return null;
+    }
     pswdLen = Number(pswdLenStr);
     if (Number.isNaN(pswdLen) || pswdLen<8 || pswdLen>128) {
       alert("Please enter a number from 8 to 128");
@@ -25,7 +29,7 @@ function generatePassword() {
     includeNumbers = confirm("Should the password include numbers? [OK/Yes][Cancel/No]");
     includeSpecial = confirm("Should the password include special characters? [OK/Yes][Cancel/No]");
     if (!(includeLowercase || includeUppercase || includeNumbers || includeSpecial)) {
-      alert("The password must include at least one of the following types: lowercase, uppercase, numbers, or speical characters.");
+      alert("The password must include at least one of the following types: lowercase, uppercase, numbers, or special characters.");
     }
   }
   console.log(`lowercase:${includeLowercase}, uppercase:${includeUppercase}, numbers:${includeNumbers}, special:${includeSpecial}`);
@@ -35,6 +39,10 @@ function generatePassword() {
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
+  if (password==null) {
+    // user pressed cancel; don't update password field
+    return;
+  }
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
